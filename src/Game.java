@@ -5,9 +5,7 @@ public class Game {
 
     public String movieTitle;
 
-    //mi conviene settarla da qui? Sarebbe meglio contare i film?
-
-    private static int numberOfMovies = 25;
+    private int numberOfMovies;
     private static final int maxGuesses = 3;
     private int wrongGuesses;
     private char[] fails;
@@ -18,13 +16,33 @@ public class Game {
 
     Game(){
 
-        try{movieTitle = pickRandomMovie();}
+        try{
+            setNumberOfMovies();
+        }
         catch(Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong while counting the movies");
         }
 
+        try{
+            movieTitle = pickRandomTitle();
+        }
+        catch(Exception exception) {
+            System.out.println("Something went wrong while picking the Movie from the file");
+        }
+
+        turnsTitleInArray(); //o va nel Main?
 
         System.out.println(movieTitle);
+
+        fails = new char[maxGuesses];
+    }
+
+    /*
+    *MODIFY charMovieTitle with characters of the title and MODIFY charGuessed with "-" and " "
+     */
+
+    public void turnsTitleInArray(){
+
         charMovieTitle = movieTitle.toCharArray();
 
         charGuessed = new char[charMovieTitle.length];
@@ -36,41 +54,62 @@ public class Game {
             }else {
                 charGuessed[i] = '-';
             }
-
         }
-
-        fails = new char[maxGuesses];
     }
+
 
     public String getRandomMovieTitle(){
 
         String randomMovieTitle = movieTitle;
 
         return randomMovieTitle;
-
     }
 
-    private String pickRandomMovie() throws Exception{
+    /*
+    *MODIFY number of movies with number of movies in file movies.txt
+     */
+
+    private void setNumberOfMovies() throws Exception{
 
         File file = new File("movies.txt");
 
-        String[] movieTitles = new String[numberOfMovies];
-
-
         Scanner scanner = new Scanner(file);
-        int i = 0;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            movieTitles[i] = line;
-            i++;
+            numberOfMovies ++;
         }
+
+    }
+
+    /*
+    *RETURN a random title
+     */
+
+    private String pickRandomTitle() throws Exception{
+
+        File file = new File("movies.txt");
 
         int randomNumber = (int) (Math.random()* numberOfMovies);
 
-        return movieTitles[randomNumber];
+        String title = "";
 
+        Scanner scanner = new Scanner(file);
+
+        int i = 0;
+
+        while (i<=randomNumber) {
+            title = scanner.nextLine();
+            i++;
+        }
+
+        return title;
     }
+
+     /*
+    *RETURN true if char is in the title
+    * @par c REQUIRE to be a valid character
+     */
 
     public boolean isCharInTitle(char c) {
 
@@ -82,6 +121,10 @@ public class Game {
         }
         return false;
     }
+
+     /*
+    *RETURN the string with guesses
+     */
 
     public String returnStringWithGuesses(){
 
@@ -96,15 +139,21 @@ public class Game {
 
     }
 
-    public boolean isNotEqual(){
+     /*
+    *RETURN a random title
+     */
+
+    public boolean isEqual(){
 
         if (movieTitle.equals(returnStringWithGuesses())){
-            return false;
+            return true;
         }
-
-        return true;
-
+        return false;
     }
+     /*
+    *MODIFY charGuessed array, adds the new character
+    *@param c REQUIRED to be a character in the title
+     */
 
     public void setGuessedCharacter(char c){
 
@@ -113,10 +162,7 @@ public class Game {
             if (charMovieTitle[i] == c){
                 charGuessed[i] = c;
             }
-
         }
-
-
     }
 
     public int getWrongGuesses(){
@@ -129,6 +175,11 @@ public class Game {
         return maxGuesses;
 
     }
+
+    /*
+    *MODIFY wrongGuesses variable, MODIFY fails[]
+    *@param c REQUIRED to be a valid character
+     */
 
     public void setAfterFailedAttempt(char c){
 

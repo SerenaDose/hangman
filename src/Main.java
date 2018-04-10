@@ -4,19 +4,15 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
 
-        // I have to handle this exceptionx
+        // I have to handle this exception:
         // Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 0
 
-        // write your code here
-        ///////
 
         Game guessTheMovie = new Game();
 
         String movieToGuess = guessTheMovie.getRandomMovieTitle();
 
-        //  System.out.print(guessTheMovie.pickNumberOfMovies());
-
-        while ((guessTheMovie.getWrongGuesses()!= guessTheMovie.getMaxGuesses()) && guessTheMovie.isNotEqual()) {
+        while ((guessTheMovie.getWrongGuesses()!= guessTheMovie.getMaxGuesses()) && !guessTheMovie.isEqual()) {
 
             System.out.println(guessTheMovie.returnStringWithGuesses());
 
@@ -26,6 +22,7 @@ public class Main {
 
             try {
                 String input = scanner.nextLine();
+                Character inputCharacter = input.charAt(0);
 
                 //devo assicurarmi che sia solo un carattere e non una stringa?
 
@@ -34,7 +31,7 @@ public class Main {
                     System.out.println("You must type only one letter");
                 }else {
 
-                    Character inputCharacter = input.charAt(0);
+
 
                     if (guessTheMovie.isCharInTitle(inputCharacter)) {
 
@@ -64,7 +61,7 @@ public class Main {
             }
         }
 
-        if (guessTheMovie.isNotEqual() == false){
+        if (guessTheMovie.isEqual()){
 
             System.out.println("You guessed the title!");
 
