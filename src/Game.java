@@ -6,11 +6,10 @@ public class Game {
     public String movieTitle;
 
     private int numberOfMovies;
-    private static final int maxGuesses = 3;
+    private static final int maxGuesses = 7;
     private int wrongGuesses;
     private char[] fails;
 
-    // mi converrebbe usare degli array list?
     private char[] charMovieTitle;
     private char[] charGuessed;
 
@@ -32,7 +31,7 @@ public class Game {
 
         turnsTitleInArray(); //o va nel Main?
 
-        System.out.println(movieTitle);
+       // System.out.println(movieTitle);
 
         fails = new char[maxGuesses];
     }
@@ -90,7 +89,7 @@ public class Game {
 
         File file = new File("movies.txt");
 
-        int randomNumber = (int) (Math.random()* numberOfMovies);
+        int randomNumber = Random.randomN(numberOfMovies);
 
         String title = "";
 
@@ -113,13 +112,9 @@ public class Game {
 
     public boolean isCharInTitle(char c) {
 
-        for (char ch : charMovieTitle) {
+        String character = Character.toString(c);
 
-            if (ch == c) {
-                return true;
-            }
-        }
-        return false;
+        return movieTitle.contains(character);
     }
 
      /*
@@ -204,6 +199,11 @@ public class Game {
 
         return maxGuesses-wrongGuesses;
 
+    }
+
+    public String getMovieTitle(){
+
+        return movieTitle;
     }
 
 

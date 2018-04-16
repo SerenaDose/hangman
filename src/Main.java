@@ -4,9 +4,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
 
-        // I have to handle this exception:
-        // Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 0
-
 
         Game guessTheMovie = new Game();
 
@@ -24,7 +21,7 @@ public class Main {
                 String input = scanner.nextLine();
                 Character inputCharacter = input.charAt(0);
 
-                //devo assicurarmi che sia solo un carattere e non una stringa?
+                //devo assicurarmi che sia solo un carattere e non una stringa
 
                 if(input.length()>1){
 
@@ -39,7 +36,6 @@ public class Main {
 
                         System.out.println("Yay the character is in the title!");
                         System.out.println("");
-                        // System.out.println("The title doesn't contain: " + guessTheMovie.printWrongGuesses());
 
                     } else {
                         guessTheMovie.setAfterFailedAttempt(inputCharacter);
@@ -64,6 +60,7 @@ public class Main {
         if (guessTheMovie.isEqual()){
 
             System.out.println("You guessed the title!");
+            System.out.println(guessTheMovie.getMovieTitle());
 
         }else{
             System.out.println("Try again");
