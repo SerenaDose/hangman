@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
 
 
-        Game guessTheMovie = new Game();
+        Game guessTheMovie = new Game("movies.txt");
 
         String movieToGuess = guessTheMovie.getRandomMovieTitle();
 

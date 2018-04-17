@@ -8,28 +8,33 @@ public class Game {
     private int numberOfMovies;
     private static final int maxGuesses = 7;
     private int wrongGuesses;
+
+    private File file;
+
     private char[] fails;
 
     private char[] charMovieTitle;
     private char[] charGuessed;
 
-    Game(){
+    Game(String fileTitle){
+
+        this.file = new File(fileTitle);
 
         try{
-            setNumberOfMovies();
+            setNumberOfMovies(file);
         }
         catch(Exception exception) {
             System.out.println("Something went wrong while counting the movies");
         }
 
         try{
-            movieTitle = pickRandomTitle();
+            movieTitle = pickRandomTitle(file);
         }
         catch(Exception exception) {
-            System.out.println("Something went wrong while picking the Movie from the file");
+            System.out.println("Something went wrong whisle picking the Movie from the file");
         }
 
-        turnsTitleInArray(); //o va nel Main?
+        turnTitleInArray(); //o va nel Main?
 
        // System.out.println(movieTitle);
 
@@ -40,7 +45,7 @@ public class Game {
     *MODIFY charMovieTitle with characters of the title and MODIFY charGuessed with "-" and " "
      */
 
-    public void turnsTitleInArray(){
+    public void turnTitleInArray(){
 
         charMovieTitle = movieTitle.toCharArray();
 
@@ -68,16 +73,9 @@ public class Game {
     *MODIFY number of movies with number of movies in file movies.txt
      */
 
-    private void setNumberOfMovies() throws Exception{
+    private void setNumberOfMovies(File file) throws Exception{
 
-        File file = new File("movies.txt");
-
-        Scanner scanner = new Scanner(file);
-
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            numberOfMovies ++;
-        }
+        numberOfMovies = FileManager.countLines(file);
 
     }
 
@@ -85,22 +83,9 @@ public class Game {
     *RETURN a random title
      */
 
-    private String pickRandomTitle() throws Exception{
+    private String pickRandomTitle(File file) throws Exception{
 
-        File file = new File("movies.txt");
-
-        int randomNumber = Random.randomN(numberOfMovies);
-
-        String title = "";
-
-        Scanner scanner = new Scanner(file);
-
-        int i = 0;
-
-        while (i<=randomNumber) {
-            title = scanner.nextLine();
-            i++;
-        }
+        String title = FileManager.returnRandomLine(file, numberOfMovies);
 
         return title;
     }
