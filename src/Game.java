@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Game {
@@ -23,14 +24,15 @@ public class Game {
         try{
             setNumberOfMovies(file);
         }
-        catch(Exception exception) {
+        catch(FileNotFoundException exception) {
             System.out.println("Something went wrong while counting the movies");
+            //inserire anche il messaggio dell'eccezione I/O exc
         }
 
         try{
             movieTitle = pickRandomTitle(file);
         }
-        catch(Exception exception) {
+        catch(FileNotFoundException exception) {
             System.out.println("Something went wrong whisle picking the Movie from the file");
         }
 
@@ -73,7 +75,7 @@ public class Game {
     *MODIFY number of movies with number of movies in file movies.txt
      */
 
-    private void setNumberOfMovies(File file) throws Exception{
+    private void setNumberOfMovies(File file) throws FileNotFoundException {
 
         numberOfMovies = FileManager.countLines(file);
 
@@ -83,7 +85,7 @@ public class Game {
     *RETURN a random title
      */
 
-    private String pickRandomTitle(File file) throws Exception{
+    private String pickRandomTitle(File file) throws FileNotFoundException{
 
         String title = FileManager.returnRandomLine(file, numberOfMovies);
 
@@ -123,7 +125,7 @@ public class Game {
     *RETURN a random title
      */
 
-    public boolean isEqual(){
+    public boolean isCorrect(){
 
         if (movieTitle.equals(returnStringWithGuesses())){
             return true;
@@ -167,7 +169,7 @@ public class Game {
         fails[wrongGuesses - 1] = c;
     }
 
-    public String printWrongGuesses(){
+    public String WrongGuesses(){
 
         String output = "";
 
@@ -191,5 +193,49 @@ public class Game {
         return movieTitle;
     }
 
+    public void verificaEMemorizzaInput(char c){
+
+        if (isCharInTitle(c)) {
+            setGuessedCharacter(c);
+            System.out.println("Yay the character is in the title!");
+            System.out.println("");
+
+        } else {
+            setAfterFailedAttempt(c);
+            System.out.format("The character isn't in the title \n You have now %d guesses left \n\n " +
+                    "The title doesn't contain: %d",
+                    guessesLeft(), WrongGuesses()  );
+        }
+    }
+
+
+    public char leggeEValidaInput() throws Exception{
+
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            String input = scanner.nextLine();
+            Character inputCharacter = input.charAt(0);
+            return input.charAt(0);
+        }catch (StringIndexOutOfBoundsException exception){
+            System.out.println("You must type one letter");
+            throw new Exception("Empty Input not allowed");
+        }catch(Exception exception){
+            System.out.println("Something went wrong");
+            throw exception;
+        }
+
+    }
+
+  /*  public char leggeEValidaInputBis(Scanner scanner){
+
+            String input = scanner.nextLine();
+            Character inputCharacter = input.charAt(0);
+
+            if(inputCharacter != ' '){
+
+            }
+
+    }*/
 
 }
